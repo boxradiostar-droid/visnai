@@ -1,0 +1,816 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NEXLEV AI STUDIO — Premium AI Video Production</title>
+  <meta name="description" content="기업용 AI 영상 제작 스튜디오. 프리미엄 하이테크 비주얼, 고전환 영상 제작." />
+
+  <!-- Google Fonts: Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #030305;
+      --bg-gradient: radial-gradient(circle at 50% 0%, #1a1a2e 0%, #030305 60%);
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-hover: rgba(255, 255, 255, 0.08);
+      --text: #ffffff;
+      --text-muted: #8892b0;
+      --accent: #00f0ff;
+      --accent2: #7000ff;
+      --glow: 0 0 20px rgba(0, 240, 255, 0.3);
+      --max: 1280px;
+      --font-main: 'Outfit', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-main);
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100vh;
+      background: var(--bg-gradient);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* Utils */
+    .container {
+      width: min(var(--max), 92vw);
+      margin: 0 auto;
+    }
+
+    .neon-text {
+      color: var(--accent);
+      text-shadow: var(--glow);
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #fff, var(--text-muted));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .top-menu {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 1000;
+      display: flex;
+      gap: 10px;
+    }
+
+    .top-logo {
+      position: fixed;
+      top: 24px;
+      left: 24px;
+      z-index: 1000;
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      line-height: 1;
+    }
+
+    .menu-btn {
+      text-decoration: none;
+      text-transform: lowercase;
+      color: #fff;
+      border: 1px solid var(--card-border);
+      background: rgba(5, 5, 12, 0.72);
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      letter-spacing: 0.04em;
+      backdrop-filter: blur(8px);
+      transition: border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .menu-btn:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* Hero Section - Full Bleed Video on Top */
+    .hero-wrap {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      /* Start from top */
+      padding: 0 0 80px;
+      /* No top padding */
+      gap: 60px;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      max-width: 1000px;
+      padding: 0 20px;
+    }
+
+    .hero-video-container {
+      width: 100%;
+      height: 100vh;
+      /* Full screen height */
+      aspect-ratio: auto;
+      border-radius: 0;
+      border: none;
+      border-bottom: 1px solid var(--card-border);
+      box-shadow: none;
+      position: relative;
+      background: #000;
+    }
+
+    .hero-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 1;
+      filter: saturate(1.1) contrast(1.1) brightness(0.9);
+    }
+
+    /* Remove overlay from video */
+    .hero-overlay {
+      display: none;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 8px 16px;
+      border: 1px solid var(--accent);
+      border-radius: 50px;
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      margin-bottom: 24px;
+      background: rgba(0, 240, 255, 0.05);
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+      backdrop-filter: blur(5px);
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(3rem, 6vw, 6rem);
+      line-height: 1.05;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin: 0 0 32px;
+      background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    h1 .glow {
+      color: var(--accent);
+      background: none;
+      -webkit-text-fill-color: var(--accent);
+      text-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
+    }
+
+    .hero-sub {
+      font-size: clamp(1.1rem, 2vw, 1.4rem);
+      color: var(--text-muted);
+      max-width: 720px;
+      margin: 0 auto;
+      font-weight: 300;
+    }
+
+    /* Section Styles */
+    .section {
+      padding: 120px 0;
+    }
+
+    .section-title {
+      margin-bottom: 60px;
+      border-left: 3px solid var(--accent);
+      padding-left: 20px;
+    }
+
+    .section-title h2 {
+      font-size: 2.5rem;
+      margin: 0 0 10px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .section-title p {
+      color: var(--text-muted);
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    /* Portfolio Grid - Refined */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 30px 20px;
+      /* Vert gap bigger for text */
+    }
+
+    .work {
+      grid-column: span 4;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      text-decoration: none;
+      background: transparent;
+      border: none;
+    }
+
+    .work:nth-child(1),
+    .work:nth-child(6) {
+      grid-column: span 8;
+    }
+
+    .work-video-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+      background: #000;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .work:hover .work-video-wrap {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px -10px rgba(0, 240, 255, 0.15);
+      border-color: var(--accent);
+    }
+
+    .work video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 1;
+      /* Maximized opacity */
+      transition: transform 0.6s;
+    }
+
+    .work:hover video {
+      transform: scale(1.03);
+    }
+
+    .work-info {
+      padding: 0 4px;
+    }
+
+    .work h3 {
+      margin: 0 0 4px;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .work span {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: block;
+    }
+
+    .work:hover h3 {
+      color: var(--accent);
+    }
+
+
+    /* Rail */
+    .rail-wrap {
+      margin-top: 80px;
+      padding: 20px 0;
+      border-top: 1px solid var(--card-border);
+      border-bottom: 1px solid var(--card-border);
+      background: rgba(255, 255, 255, 0.01);
+    }
+
+    .rail-label {
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .rail {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      padding: 10px 0;
+      scrollbar-width: none;
+    }
+
+    .rail::-webkit-scrollbar {
+      display: none;
+    }
+
+    .rail-item {
+      flex: 0 0 300px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+      position: relative;
+    }
+
+    .rail-item img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .rail-item p {
+      padding: 12px;
+      margin: 0;
+      background: #111;
+      font-size: 0.9rem;
+      color: #eee;
+      text-align: center;
+    }
+
+    /* Process */
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .step {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      padding: 30px;
+      border-radius: 16px;
+      position: relative;
+      transition: 0.3s;
+      backdrop-filter: blur(10px);
+    }
+
+    .step:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: var(--accent);
+    }
+
+    .step-num {
+      font-size: 3rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.05);
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      line-height: 1;
+    }
+
+    .step h3 {
+      font-size: 1.2rem;
+      margin: 10px 0;
+      color: var(--accent);
+    }
+
+    .step p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    /* Why Section */
+    .reasons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+
+    .panel {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 40px;
+      backdrop-filter: blur(10px);
+    }
+
+    .panel h3 {
+      margin-top: 0;
+      font-size: 1.8rem;
+      margin-bottom: 24px;
+    }
+
+    .bullets {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .bullet {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      color: #ddd;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--accent);
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .metric {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(to right, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      line-height: 1.2;
+    }
+
+    .metric span {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* CTA */
+    .cta {
+      margin-top: 60px;
+      background: linear-gradient(90deg, #101025 0%, #050510 100%);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 50px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(112, 0, 255, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .cta h3 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .cta p {
+      color: var(--text-muted);
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      text-decoration: none;
+      background: var(--text);
+      color: #000;
+      padding: 16px 36px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+
+    .cta-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+    }
+
+    footer {
+      text-align: center;
+      padding: 60px 0;
+      font-size: 0.9rem;
+      color: #555;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      background: #020203;
+    }
+
+    /* Animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+    }
+
+    .reveal.on {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 900px) {
+      .top-logo {
+        top: 16px;
+        left: 16px;
+      }
+
+      .top-menu {
+        top: 16px;
+        right: 16px;
+      }
+
+      .work,
+      .work:nth-child(1),
+      .work:nth-child(6) {
+        grid-column: span 12;
+        aspect-ratio: auto;
+      }
+
+      .reasons,
+      .metrics {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 3rem;
+      }
+
+      .hero-wrap {
+        gap: 30px;
+        padding-top: 100px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="top-logo" href="#hero">VISN</a>
+  <nav class="top-menu">
+    <a class="menu-btn" href="#works">works</a>
+    <a class="menu-btn" href="#contact">contact</a>
+  </nav>
+
+  <section class="hero-wrap" id="hero">
+    <!-- Video separated from text - now on top -->
+    <div class="hero-video-container reveal on">
+      <video class="hero-video" autoplay muted loop playsinline preload="auto"
+        poster="https://i.ytimg.com/vi/IWvJeOoBqCo/maxresdefault.jpg">
+        <source src="./assets/hero-main.mp4" type="video/mp4" />
+      </video>
+    </div>
+
+    <div class="hero-content reveal on" style="transition-delay: 0.2s;">
+      <span class="eyebrow">Enterprise AI Cinema</span>
+      <h1>브랜드의 미래를 <br><span class="glow">압도적인 영상</span>으로.</h1>
+      <p class="hero-sub">
+        기획부터 AI 생성, 3D 모델링, 편집까지.<br>
+        상상하던 모든 것을 현실의 퀄리티로 구현하는 차세대 스튜디오.
+      </p>
+    </div>
+  </section>
+
+  <section class="section reveal" id="works">
+    <div class="container">
+      <div class="section-title">
+        <h2>Works</h2>
+        <p>기술과 예술이 결합된 하이엔드 포트폴리오.</p>
+      </div>
+
+      <div class="portfolio-grid">
+        <article class="work">
+          <div class="work-video-wrap">
+            <video autoplay muted loop playsinline poster="https://i.ytimg.com/vi/erSvdgjX02g/hqdefault.jpg">
+              <source src="https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="work-info">
+            <h3>Brand Cinematic</h3>
+            <span>Steakhouse Commercial</span>
+          </div>
+        </article>
+        <article class="work">
+          <div class="work-video-wrap">
+            <video autoplay muted loop playsinline poster="https://i.ytimg.com/vi/KdrK-sQb8-Y/hqdefault.jpg">
+              <source src="https://storage.googleapis.com/coverr-main/mp4/Footboys.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="work-info">
+            <h3>Smile Cold Ad</h3>
+            <span>Product Promo</span>
+          </div>
+        </article>
+        <article class="work">
+          <div class="work-video-wrap">
+            <video autoplay muted loop playsinline poster="https://i.ytimg.com/vi/UCtgX3BoLQQ/hqdefault.jpg">
+              <source src="https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="work-info">
+            <h3>VIPS Promo</h3>
+            <span>Food & Beverage</span>
+          </div>
+        </article>
+        <article class="work">
+          <div class="work-video-wrap">
+            <video autoplay muted loop playsinline poster="https://i.ytimg.com/vi/PatQdA8eSr8/hqdefault.jpg">
+              <source src="https://storage.googleapis.com/coverr-main/mp4/Footboys.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="work-info">
+            <h3>Trailer Cut</h3>
+            <span>Cinematic Teaser</span>
+          </div>
+        </article>
+        <article class="work">
+          <div class="work-video-wrap">
+            <video autoplay muted loop playsinline poster="https://i.ytimg.com/vi/H5ZV1TY-Xrc/hqdefault.jpg">
+              <source src="https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="work-info">
+            <h3>Moving Service</h3>
+            <span>App Commercial</span>
+          </div>
+        </article>
+        <article class="work">
+          <div class="work-video-wrap">
+            <video autoplay muted loop playsinline poster="https://i.ytimg.com/vi/IWvJeOoBqCo/hqdefault.jpg">
+              <source src="https://storage.googleapis.com/coverr-main/mp4/Footboys.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="work-info">
+            <h3>Sports Campaign</h3>
+            <span>High Energy</span>
+          </div>
+        </article>
+      </div>
+
+      <div class="rail-wrap">
+        <p class="rail-label">WHEEL INTERACTION ZONE</p>
+        <div class="rail" id="wheelRail">
+          <div class="rail-item"><img src="https://i.ytimg.com/vi/erSvdgjX02g/hqdefault.jpg" alt="">
+            <p>Steakhouse</p>
+          </div>
+          <div class="rail-item"><img src="https://i.ytimg.com/vi/KdrK-sQb8-Y/hqdefault.jpg" alt="">
+            <p>Smile Cold</p>
+          </div>
+          <div class="rail-item"><img src="https://i.ytimg.com/vi/UCtgX3BoLQQ/hqdefault.jpg" alt="">
+            <p>VIPS Commercial</p>
+          </div>
+          <div class="rail-item"><img src="https://i.ytimg.com/vi/PatQdA8eSr8/hqdefault.jpg" alt="">
+            <p>Trailer Cut</p>
+          </div>
+          <div class="rail-item"><img src="https://i.ytimg.com/vi/IWvJeOoBqCo/hqdefault.jpg" alt="">
+            <p>Sports</p>
+          </div>
+          <div class="rail-item"><img src="https://i.ytimg.com/vi/H5ZV1TY-Xrc/hqdefault.jpg" alt="">
+            <p>Moving</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="container">
+      <div class="section-title">
+        <h2>Process</h2>
+        <p>AI 기술로 극대화된 효율과 퀄리티.</p>
+      </div>
+      <div class="process-grid">
+        <div class="step">
+          <div class="step-num">01</div>
+          <h3>전략 설계</h3>
+          <p>브랜드 목표와 타겟 오디언스를 정밀하게 분석하여 컨셉 도출</p>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <h3>AI 프리비즈</h3>
+          <p>생성형 AI로 수십 가지 시안을 빠르게 시뮬레이션</p>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <h3>하이브리드 제작</h3>
+          <p>고품질 촬영 소스와 AI 생성 소스를 결합하여 완성도 극대화</p>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <h3>데이터 최적화</h3>
+          <p>성과 데이터를 분석하여 크리에이티브 지속 개선</p>
+        </div>
+        <div class="step">
+          <div class="step-num">05</div>
+          <h3>채널 운영</h3>
+          <p>일관된 톤앤매너로 브랜드 유튜브/SNS 채널 스케일업</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="container">
+      <div class="reasons">
+        <div class="panel">
+          <h3>Native AI Creative</h3>
+          <div class="bullets">
+            <div class="bullet">
+              <div class="dot"></div><span>프롬프트 엔지니어링 기반의 완벽한 룩 제어</span>
+            </div>
+            <div class="bullet">
+              <div class="dot"></div><span>기존 제작 방식 대비 3배 빠른 속도</span>
+            </div>
+            <div class="bullet">
+              <div class="dot"></div><span>무한한 아이데이션과 시각적 실험</span>
+            </div>
+            <div class="bullet">
+              <div class="dot"></div><span>브랜드 전용 AI 모델 파인튜닝 지원</span>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <h3>Business Impact</h3>
+          <div class="metrics">
+            <div class="metric"><strong>3.8x</strong><span>조회수 상승</span></div>
+            <div class="metric"><strong>+42%</strong><span>CTR 개선</span></div>
+            <div class="metric"><strong>58%</strong><span>비용 절감</span></div>
+            <div class="metric"><strong>2.1x</strong><span>ROAS 달성</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cta reveal" id="contact">
+        <h3>Start Project Now</h3>
+        <p>지금 바로 귀사의 브랜드를 위한 AI 영상 솔루션을 만나보세요.</p>
+        <a href="https://t.me/TooBillion" class="cta-btn">프로젝트 문의하기</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      © 2026 NEXLEV AI STUDIO. All rights reserved. <br>
+      Leading the future of AI contents production.
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      // Scroll Reveal
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+      // Horizontal Scroll
+      const rail = document.getElementById('wheelRail');
+      rail?.addEventListener('wheel', (e) => {
+        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+          e.preventDefault();
+          rail.scrollLeft += e.deltaY;
+        }
+      }, { passive: false });
+    })();
+  </script>
+</body>
+
+</html>
