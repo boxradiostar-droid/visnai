@@ -809,6 +809,34 @@
           rail.scrollLeft += e.deltaY;
         }
       }, { passive: false });
+
+      // Work cards -> YouTube links
+      const ytLinks = [
+        'https://youtu.be/erSvdgjX02g',
+        'https://youtu.be/KdrK-sQb8-Y',
+        'https://youtu.be/UCtgX3BoLQQ',
+        'https://youtu.be/PatQdA8eSr8',
+        'https://youtu.be/H5ZV1TY-Xrc',
+        'https://youtu.be/IWvJeOoBqCo'
+      ];
+
+      document.querySelectorAll('.work').forEach((card, i) => {
+        card.style.cursor = 'pointer';
+        card.title = 'YouTube에서 보기';
+        card.addEventListener('click', () => {
+          const url = ytLinks[i];
+          if (url) window.open(url, '_blank', 'noopener,noreferrer');
+        });
+      });
+
+      document.querySelectorAll('.rail-item').forEach((item, i) => {
+        item.style.cursor = 'pointer';
+        item.title = 'YouTube에서 보기';
+        item.addEventListener('click', () => {
+          const url = ytLinks[i];
+          if (url) window.open(url, '_blank', 'noopener,noreferrer');
+        });
+      });
     })();
   </script>
 </body>
